@@ -38,7 +38,8 @@ const Button = styled.button`
   margin-bottom: 10px;
   transition: background-color 0.3s;
   &:hover {
-    background-color: royalblue;
+    color: var(--color-white);
+    background-color: var(--color-main);
   }
 `;
 

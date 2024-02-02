@@ -1,3 +1,8 @@
+:root {
+  --color-main: #fa456f;
+  --color-white: #fff;
+  --color-black: #1a1a1a;
+}
 html,
 body,
 div,

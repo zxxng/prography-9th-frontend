@@ -24,7 +24,7 @@ const Header = styled.header`
 `;
 
 const Section = styled.section`
-  width: 80%;
+  width: 70%;
   margin: 0 auto;
 `;
 

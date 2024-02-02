@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ICategoryData, ICategory } from 'types/apiResponse';
 import axios from 'axios';
+import useStore from 'store/store';
 
 const Category = () => {
+  const { selectedCategory, setSelectedCategory } = useStore();
   const [categorys, setCategorys] = useState<ICategory[]>();
 
   useEffect(() => {
@@ -16,26 +18,57 @@ const Category = () => {
     fetchCategory();
   }, []);
 
+  const handleCategoryButton = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    const target = e.target;
+    if (!(target instanceof HTMLElement)) return;
+
+    const category = target.innerText;
+    if (selectedCategory.includes(category)) {
+      const updatedCategory = selectedCategory.filter(
+        (item) => item !== category,
+      );
+      setSelectedCategory(updatedCategory);
+    } else {
+      setSelectedCategory([...selectedCategory, category]);
+    }
+  };
+
   return (
     <Wrapper>
       {categorys?.map((e) => {
-        return <Button key={e.idCategory}>{e.strCategory}</Button>;
+        const isSelected = selectedCategory.includes(e.strCategory);
+        return (
+          <Button
+            key={e.idCategory}
+            onClick={(e) => handleCategoryButton(e)}
+            selected={isSelected}
+          >
+            {e.strCategory}
+          </Button>
+        );
       })}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.nav`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin: 10px 0;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ selected: boolean }>`
   cursor: pointer;
+  background-color: ${(props) =>
+    props.selected ? 'var(--color-main)' : 'var(--color-white)'};
+  color: ${(props) =>
+    props.selected ? 'var(--color-white)' : 'var(--color-black)'};
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   border-radius: 50px;
   padding: 10px 15px;
-  margin-right: 10px;
-  margin-bottom: 10px;
   transition: background-color 0.3s;
   &:hover {
     color: var(--color-white);

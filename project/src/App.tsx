@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import logo from 'assets/logo.png';
 import Category from 'components/Category';
+import Results from 'components/Results';
 import styled from 'styled-components';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Section>
         <h2 className="a11y-hidden">음식 목록 조회</h2>
         <Category />
+        <Results />
       </Section>
     </>
   );

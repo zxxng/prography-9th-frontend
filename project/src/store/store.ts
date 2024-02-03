@@ -6,7 +6,7 @@ interface State {
 }
 
 const useStore = create<State>((set) => ({
-  selectedCategory: ['Beef'],
+  selectedCategory: [],
   setSelectedCategory: (category) =>
     set(() => ({ selectedCategory: category })),
 }));

@@ -21,7 +21,7 @@ const DataControl = () => {
             defaultValue="latest"
             onChange={handleSortOptionChange}
           >
-            <option value="latest">최신순</option>
+            <option value="new">최신순</option>
             <option value="asc">이름 오름차순</option>
             <option value="desc">이름 내림차순</option>
           </select>

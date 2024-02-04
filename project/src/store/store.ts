@@ -9,7 +9,7 @@ interface State {
 }
 
 const useStore = create<State>((set) => ({
-  sortOption: 'latest',
+  sortOption: 'new',
   setSortOption: (selected) => set(() => ({ sortOption: selected })),
   viewCount: 4,
   setViewcount: (selected) => set(() => ({ viewCount: selected })),

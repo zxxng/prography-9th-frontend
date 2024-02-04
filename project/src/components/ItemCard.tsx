@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import type { IMeals } from 'types/apiResponse';
 import useStore from 'store/store';
 
-const ItemCard = ({ meals }: { meals: IMeals[] }) => {
+const ItemCard = ({ meals }: { meals: IMeals[] | undefined }) => {
   const [itemCount, setItemCount] = useState<number>(
-    meals.length < 20 ? meals.length : 20,
+    meals && meals.length < 20 ? meals.length : 20,
   );
   const { viewCount } = useStore();
 
   useEffect(() => {
-    setItemCount(meals.length < 20 ? meals.length : 20);
+    if (meals) setItemCount(meals.length < 20 ? meals.length : 20);
   }, [meals]);
 
   useEffect(() => {
@@ -27,6 +27,7 @@ const ItemCard = ({ meals }: { meals: IMeals[] }) => {
       });
     };
     window.addEventListener('scroll', handleScroll);
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -35,10 +36,11 @@ const ItemCard = ({ meals }: { meals: IMeals[] }) => {
   return (
     <>
       <Count>
-        {itemCount} / {meals.length} 개 조회
+        {itemCount} / {meals?.length} 개 조회
       </Count>
       <Container>
         {meals?.slice(0, itemCount).map((e) => {
+          if (!e) return;
           return (
             <Item key={e.idMeal} $viewCount={viewCount}>
               <Img src={e.strMealThumb}></Img>

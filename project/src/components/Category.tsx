@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ICategoryData, ICategory } from 'types/apiResponse';
 import axios from 'axios';
-import useStore from 'store/store';
+import { useNavigate } from 'react-router-dom';
 
 const Category = () => {
-  const { selectedCategory, setSelectedCategory } = useStore();
+  const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
   const [categorys, setCategorys] = useState<ICategory[]>();
 
   useEffect(() => {
@@ -25,13 +26,16 @@ const Category = () => {
     if (!(target instanceof HTMLElement)) return;
 
     const category = target.innerText;
+
     if (selectedCategory.includes(category)) {
       const updatedCategory = selectedCategory.filter(
         (item) => item !== category,
       );
       setSelectedCategory(updatedCategory);
+      navigate(`?category=${updatedCategory.join(',')}`);
     } else {
       setSelectedCategory([...selectedCategory, category]);
+      navigate(`?category=${[...selectedCategory, category].join(',')}`);
     }
   };
 

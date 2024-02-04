@@ -6,11 +6,14 @@ import useStore from 'store/store';
 import { useQuery } from '@tanstack/react-query';
 import Skeleton from 'components/Skeleton';
 import DataControl from 'components/DataControl';
+import { useLocation } from 'react-router-dom';
 
 const ItemCard = React.lazy(() => import('components/ItemCard'));
 
 const Results = () => {
-  const { selectedCategory, sortOption } = useStore();
+  const { sortOption } = useStore();
+  const location = useLocation();
+  const selectedCategory = location.search.replace('?category=', '').split(',');
 
   const fetchMealList = async () => {
     const requests = selectedCategory.map(async (category) => {
@@ -25,15 +28,19 @@ const Results = () => {
   };
 
   const sortData = (meals: IMeals[], sortOption: Sort): IMeals[] => {
+    const validMeals = meals.filter((meal) => meal !== null);
+
     switch (sortOption) {
-      case 'latest':
-        return [...meals].sort((a, b) => b.idMeal - a.idMeal);
       case 'asc':
-        return [...meals].sort((a, b) => a.strMeal.localeCompare(b.strMeal));
+        return [...validMeals].sort((a, b) =>
+          a.strMeal.localeCompare(b.strMeal),
+        );
       case 'desc':
-        return [...meals].sort((a, b) => b.strMeal.localeCompare(a.strMeal));
+        return [...validMeals].sort((a, b) =>
+          b.strMeal.localeCompare(a.strMeal),
+        );
       default:
-        return meals;
+        return [...validMeals].sort((a, b) => b.idMeal - a.idMeal);
     }
   };
 
@@ -46,7 +53,7 @@ const Results = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const sortedData = isLoading || !data ? [] : sortData(data, sortOption);
+  const sortedData = !data ? undefined : sortData(data, sortOption);
 
   return (
     <Suspense fallback={<Skeleton />}>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import useStore from 'store/store';
 import type { Sort, View } from 'types/option';
 
-const DataControl = ({ length }: { length: number | undefined }) => {
+const DataControl = () => {
   const { setSortOption, setViewcount } = useStore();
   const handleSortOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOption(e.target.value as Sort);
@@ -14,7 +14,6 @@ const DataControl = ({ length }: { length: number | undefined }) => {
 
   return (
     <Wrapper>
-      <Count>11 / {length} 개 조회</Count>
       <Select>
         <SelectForm>
           <select
@@ -45,11 +44,10 @@ const DataControl = ({ length }: { length: number | undefined }) => {
 const Wrapper = styled.div`
   margin: 20px 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 `;
 
-const Count = styled.p``;
 const Select = styled.div`
   display: flex;
 `;
@@ -68,6 +66,12 @@ const SelectForm = styled.form`
     border: none;
     background: transparent;
     outline: none;
+  }
+
+  @media (max-width: 390px) {
+    &:nth-child(2) {
+      display: none;
+    }
   }
 `;
 

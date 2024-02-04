@@ -3,15 +3,21 @@ import styled, { keyframes } from 'styled-components';
 
 const Skeleton = () => {
   return (
-    <>
+    <Wrapper>
       {Array(12)
         .fill(0)
         .map((_, i) => (
           <SkeletonItem key={i} />
         ))}
-    </>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+`;
 
 const shimmer = keyframes`
   0% {

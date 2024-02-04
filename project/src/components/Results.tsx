@@ -1,5 +1,4 @@
 import React, { Suspense } from 'react';
-import styled from 'styled-components';
 import type { IMeals, IMealsData } from 'types/apiResponse';
 import axios from 'axios';
 import useStore from 'store/store';
@@ -40,16 +39,10 @@ const Results = () => {
 
   return (
     <Suspense fallback={<Skeleton />}>
-      <DataControl length={meals?.length} />
-      <Wrapper>{isLoading ? <Skeleton /> : <ItemCard meals={meals} />}</Wrapper>
+      <DataControl />
+      {isLoading ? <Skeleton /> : <ItemCard meals={meals} />}
     </Suspense>
   );
 };
-
-const Wrapper = styled.section`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-`;
 
 export default Results;

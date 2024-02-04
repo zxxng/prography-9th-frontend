@@ -31,10 +31,6 @@ const Results = () => {
     queryFn: () => fetchMealList(),
   });
 
-  if (isLoading) {
-    return <Skeleton />;
-  }
-
   if (isError) {
     return <div>Error: {error.message}</div>;
   }

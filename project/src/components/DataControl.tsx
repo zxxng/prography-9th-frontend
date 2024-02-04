@@ -9,7 +9,7 @@ const DataControl = () => {
     setSortOption(e.target.value as Sort);
   };
   const handleViewCountChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setViewcount(e.target.value as View);
+    setViewcount(Number(e.target.value) as View);
   };
 
   return (

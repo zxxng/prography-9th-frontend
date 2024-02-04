@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import type { IMeals } from 'types/apiResponse';
+import useStore from 'store/store';
 
 const ItemCard = ({ meals }: { meals: IMeals[] }) => {
   const [itemCount, setItemCount] = useState<number>(
     meals.length < 20 ? meals.length : 20,
   );
+  const { viewCount } = useStore();
 
   useEffect(() => {
     setItemCount(meals.length < 20 ? meals.length : 20);
@@ -38,7 +40,7 @@ const ItemCard = ({ meals }: { meals: IMeals[] }) => {
       <Container>
         {meals?.slice(0, itemCount).map((e) => {
           return (
-            <Item key={e.idMeal}>
+            <Item key={e.idMeal} $viewCount={viewCount}>
               <Img src={e.strMealThumb}></Img>
               <ItemName>{e.strMeal}</ItemName>
             </Item>
@@ -64,9 +66,9 @@ const Container = styled.section`
   }
 `;
 
-const Item = styled.article`
-  flex: 1 0 calc(25% - 10px);
-  max-width: calc(25% - 10px);
+const Item = styled.article<{ $viewCount: number }>`
+  flex: 1 0 calc(${(props) => 100 / props.$viewCount}% - 10px);
+  max-width: calc(${(props) => 100 / props.$viewCount}% - 10px);
 
   @media (max-width: 390px) {
     flex: 1;

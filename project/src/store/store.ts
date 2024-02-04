@@ -16,7 +16,7 @@ const useStore = create<State>((set) => ({
     set(() => ({ selectedCategory: category })),
   sortOption: 'latest',
   setSortOption: (selected) => set(() => ({ sortOption: selected })),
-  viewCount: '4',
+  viewCount: 4,
   setViewcount: (selected) => set(() => ({ viewCount: selected })),
 }));
 

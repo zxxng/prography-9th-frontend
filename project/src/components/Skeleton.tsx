@@ -1,13 +1,16 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import useStore from 'store/store';
 
 const Skeleton = () => {
+  const { viewCount } = useStore();
+
   return (
     <Wrapper>
       {Array(12)
         .fill(0)
         .map((_, i) => (
-          <SkeletonItem key={i} />
+          <SkeletonItem key={i} $viewCount={viewCount} />
         ))}
     </Wrapper>
   );
@@ -28,9 +31,9 @@ const shimmer = keyframes`
   }
 `;
 
-const SkeletonItem = styled.div`
-  flex: 1 0 calc(25% - 10px);
-  max-width: calc(25% - 10px);
+const SkeletonItem = styled.div<{ $viewCount: number }>`
+  flex: 1 0 calc(${(props) => 100 / props.$viewCount}% - 10px);
+  max-width: calc(${(props) => 100 / props.$viewCount}% - 10px);
   height: 200px;
   background: var(--color-white);
   background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);

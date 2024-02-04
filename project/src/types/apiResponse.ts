@@ -1,20 +1,20 @@
-export interface ICategory {
+export interface Categorys {
   idCategory: string;
   strCategory: string;
   strCategoryThumb: string;
   strCategoryDescription: string;
 }
 
-export interface ICategoryData {
-  categories: ICategory[];
+export interface CategoryData {
+  categories: Categorys[];
 }
 
-export interface IMeals {
+export interface Meals {
   strMeal: string;
   strMealThumb: string;
   idMeal: number;
 }
 
-export interface IMealsData {
-  meals: IMeals[];
+export interface MealsData {
+  meals: Meals[];
 }

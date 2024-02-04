@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ICategoryData, ICategory } from 'types/apiResponse';
+import { CategoryData, Categorys } from 'types/apiResponse';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Category = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
-  const [categorys, setCategorys] = useState<ICategory[]>();
+  const [categorys, setCategorys] = useState<Categorys[]>();
 
   useEffect(() => {
     const fetchCategory = async () => {
-      const response = await axios.get<ICategoryData>(
+      const response = await axios.get<CategoryData>(
         'https://www.themealdb.com/api/json/v1/1/categories.php',
       );
       setCategorys(response.data.categories);

@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import type { IMeals, IMealsData } from 'types/apiResponse';
+import type { Meals, MealsData } from 'types/apiResponse';
 import type { Sort } from 'types/option';
 import axios from 'axios';
 import useStore from 'store/store';
@@ -17,7 +17,7 @@ const Results = () => {
 
   const fetchMealList = async () => {
     const requests = selectedCategory.map(async (category) => {
-      const response = await axios.get<IMealsData>(
+      const response = await axios.get<MealsData>(
         `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`,
       );
       return response.data.meals;
@@ -27,7 +27,7 @@ const Results = () => {
     return results.flat();
   };
 
-  const sortData = (meals: IMeals[], sortOption: Sort): IMeals[] => {
+  const sortData = (meals: Meals[], sortOption: Sort): Meals[] => {
     const validMeals = meals.filter((meal) => meal !== null);
 
     switch (sortOption) {
@@ -44,7 +44,7 @@ const Results = () => {
     }
   };
 
-  const { data, isLoading, error, isError } = useQuery<IMeals[], Error>({
+  const { data, isLoading, error, isError } = useQuery<Meals[], Error>({
     queryKey: ['meals', selectedCategory],
     queryFn: () => fetchMealList(),
   });

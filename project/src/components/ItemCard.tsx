@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import type { IMeals } from 'types/apiResponse';
+import type { Meals } from 'types/apiResponse';
 import useStore from 'store/store';
 
-const ItemCard = ({ meals }: { meals: IMeals[] | undefined }) => {
+const ItemCard = ({ meals }: { meals: Meals[] | undefined }) => {
   const [itemCount, setItemCount] = useState<number>(
     meals && meals.length < 20 ? meals.length : 20,
   );

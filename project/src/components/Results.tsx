@@ -1,10 +1,13 @@
+import React, { Suspense } from 'react';
 import styled from 'styled-components';
 import type { IMeals, IMealsData } from 'types/apiResponse';
 import axios from 'axios';
 import useStore from 'store/store';
 import { useQuery } from '@tanstack/react-query';
 import Skeleton from 'components/Skeleton';
-import DataControl from './DataControl';
+import DataControl from 'components/DataControl';
+
+const ItemCard = React.lazy(() => import('components/ItemCard'));
 
 const Results = () => {
   const { selectedCategory } = useStore();
@@ -36,23 +39,10 @@ const Results = () => {
   }
 
   return (
-    <>
+    <Suspense fallback={<Skeleton />}>
       <DataControl length={meals?.length} />
-      <Wrapper>
-        {isLoading ? (
-          <Skeleton />
-        ) : (
-          meals?.map((e) => {
-            return (
-              <Item key={e.idMeal}>
-                <Img src={e.strMealThumb}></Img>
-                <ItemName>{e.strMeal}</ItemName>
-              </Item>
-            );
-          })
-        )}
-      </Wrapper>
-    </>
+      <Wrapper>{isLoading ? <Skeleton /> : <ItemCard meals={meals} />}</Wrapper>
+    </Suspense>
   );
 };
 
@@ -61,19 +51,5 @@ const Wrapper = styled.section`
   flex-wrap: wrap;
   gap: 10px;
 `;
-
-const Item = styled.article`
-  flex: 1 0 calc(25% - 10px);
-  max-width: calc(25% - 10px);
-`;
-
-const Img = styled.img`
-  border-radius: 20px;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-`;
-
-const ItemName = styled.p``;
 
 export default Results;

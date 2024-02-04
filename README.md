@@ -19,13 +19,6 @@ npm start
 <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white" />
 <img src="https://img.shields.io/badge/ReactQuery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white" />
 
-## 🔍 구현 화면 미리 보기
-
-- 카테고리 조회 및 무한 스크롤
-  <img src='./images/view-1.gif'>
-
-- 데이터 정렬 및 뷰 선택
-  <img src='./images/view-2.gif'>
 
 ## 📁 폴더 구조
 

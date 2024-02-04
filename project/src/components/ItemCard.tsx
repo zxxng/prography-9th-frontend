@@ -2,15 +2,13 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import type { IMeals } from 'types/apiResponse';
 
-const ItemCard = ({ meals }: { meals: IMeals[] | undefined }) => {
+const ItemCard = ({ meals }: { meals: IMeals[] }) => {
   const [itemCount, setItemCount] = useState<number>(
-    meals && meals.length < 20 ? meals.length : 20,
+    meals.length < 20 ? meals.length : 20,
   );
 
   useEffect(() => {
-    if (meals) {
-      setItemCount(meals.length < 20 ? meals.length : 20);
-    }
+    setItemCount(meals.length < 20 ? meals.length : 20);
   }, [meals]);
 
   useEffect(() => {
@@ -35,7 +33,7 @@ const ItemCard = ({ meals }: { meals: IMeals[] | undefined }) => {
   return (
     <>
       <Count>
-        {itemCount} / {meals?.length} 개 조회
+        {itemCount} / {meals.length} 개 조회
       </Count>
       <Container>
         {meals?.slice(0, itemCount).map((e) => {

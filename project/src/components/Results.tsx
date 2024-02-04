@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import type { IMeals, IMealsData } from 'types/apiResponse';
+import type { Sort } from 'types/option';
 import axios from 'axios';
 import useStore from 'store/store';
 import { useQuery } from '@tanstack/react-query';
@@ -9,7 +10,7 @@ import DataControl from 'components/DataControl';
 const ItemCard = React.lazy(() => import('components/ItemCard'));
 
 const Results = () => {
-  const { selectedCategory } = useStore();
+  const { selectedCategory, sortOption } = useStore();
 
   const fetchMealList = async () => {
     const requests = selectedCategory.map(async (category) => {
@@ -23,12 +24,20 @@ const Results = () => {
     return results.flat();
   };
 
-  const {
-    data: meals,
-    isLoading,
-    error,
-    isError,
-  } = useQuery<IMeals[], Error>({
+  const sortData = (meals: IMeals[], sortOption: Sort): IMeals[] => {
+    switch (sortOption) {
+      case 'latest':
+        return [...meals].sort((a, b) => b.idMeal - a.idMeal);
+      case 'asc':
+        return [...meals].sort((a, b) => a.strMeal.localeCompare(b.strMeal));
+      case 'desc':
+        return [...meals].sort((a, b) => b.strMeal.localeCompare(a.strMeal));
+      default:
+        return meals;
+    }
+  };
+
+  const { data, isLoading, error, isError } = useQuery<IMeals[], Error>({
     queryKey: ['meals', selectedCategory],
     queryFn: () => fetchMealList(),
   });
@@ -37,10 +46,12 @@ const Results = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  const sortedData = isLoading || !data ? [] : sortData(data, sortOption);
+
   return (
     <Suspense fallback={<Skeleton />}>
       <DataControl />
-      {isLoading ? <Skeleton /> : <ItemCard meals={meals} />}
+      {isLoading ? <Skeleton /> : <ItemCard meals={sortedData} />}
     </Suspense>
   );
 };

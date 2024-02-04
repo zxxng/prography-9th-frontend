@@ -12,7 +12,7 @@ export interface ICategoryData {
 export interface IMeals {
   strMeal: string;
   strMealThumb: string;
-  idMeal: string;
+  idMeal: number;
 }
 
 export interface IMealsData {

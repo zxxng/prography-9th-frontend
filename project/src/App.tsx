@@ -26,6 +26,9 @@ function App() {
 
 const Header = styled.header`
   margin-bottom: 30px;
+  img {
+    margin: 15px;
+  }
 `;
 
 const Section = styled.section`

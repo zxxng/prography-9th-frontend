@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import logo from 'assets/logo.png';
 import Category from 'components/Category';
+import DataControl from 'components/DataControl';
 import Results from 'components/Results';
 import styled from 'styled-components';
 
@@ -15,6 +16,7 @@ function App() {
       <Section>
         <h2 className="a11y-hidden">음식 목록 조회</h2>
         <Category />
+        <DataControl />
         <Results />
       </Section>
     </>

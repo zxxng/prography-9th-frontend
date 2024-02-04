@@ -2,13 +2,15 @@ import React from 'react';
 import './App.css';
 import logo from 'assets/logo.png';
 import Category from 'components/Category';
-import DataControl from 'components/DataControl';
 import Results from 'components/Results';
 import styled from 'styled-components';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Header>
         <h1 className="a11y-hidden">프로그라피 9기 FE 사전 과제</h1>
         <img src={logo} />
@@ -16,10 +18,9 @@ function App() {
       <Section>
         <h2 className="a11y-hidden">음식 목록 조회</h2>
         <Category />
-        <DataControl />
         <Results />
       </Section>
-    </>
+    </QueryClientProvider>
   );
 }
 

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import useStore from 'store/store';
 import type { Sort, View } from 'types/option';
 
-const DataControl = () => {
+const DataControl = ({ length }: { length: number | undefined }) => {
   const { setSortOption, setViewcount } = useStore();
   const handleSortOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOption(e.target.value as Sort);
@@ -14,7 +14,7 @@ const DataControl = () => {
 
   return (
     <Wrapper>
-      <Count>11 / 200 개 조회</Count>
+      <Count>11 / {length} 개 조회</Count>
       <Select>
         <SelectForm>
           <select

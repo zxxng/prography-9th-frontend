@@ -1,40 +1,62 @@
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import type { IMeals, IMealsData } from 'types/apiResponse';
 import axios from 'axios';
 import useStore from 'store/store';
+import { useQuery } from '@tanstack/react-query';
+import Skeleton from 'components/Skeleton';
+import DataControl from './DataControl';
 
 const Results = () => {
   const { selectedCategory } = useStore();
-  const [meals, setMeals] = useState<IMeals[]>();
 
-  useEffect(() => {
-    const fetchMealList = async () => {
-      const requests = selectedCategory.map(async (category) => {
-        const response = await axios.get<IMealsData>(
-          `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`,
-        );
-        return response.data.meals;
-      });
+  const fetchMealList = async () => {
+    const requests = selectedCategory.map(async (category) => {
+      const response = await axios.get<IMealsData>(
+        `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`,
+      );
+      return response.data.meals;
+    });
 
-      const results = await Promise.all(requests);
-      const meals = results.flat();
-      setMeals(meals);
-    };
-    fetchMealList();
-  }, [selectedCategory]);
+    const results = await Promise.all(requests);
+    return results.flat();
+  };
+
+  const {
+    data: meals,
+    isLoading,
+    error,
+    isError,
+  } = useQuery<IMeals[], Error>({
+    queryKey: ['meals', selectedCategory],
+    queryFn: () => fetchMealList(),
+  });
+
+  if (isLoading) {
+    return <Skeleton />;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
-    <Wrapper>
-      {meals?.map((e) => {
-        return (
-          <Item key={e.idMeal}>
-            <Img src={e.strMealThumb}></Img>
-            <ItemName>{e.strMeal}</ItemName>
-          </Item>
-        );
-      })}
-    </Wrapper>
+    <>
+      <DataControl length={meals?.length} />
+      <Wrapper>
+        {isLoading ? (
+          <Skeleton />
+        ) : (
+          meals?.map((e) => {
+            return (
+              <Item key={e.idMeal}>
+                <Img src={e.strMealThumb}></Img>
+                <ItemName>{e.strMeal}</ItemName>
+              </Item>
+            );
+          })
+        )}
+      </Wrapper>
+    </>
   );
 };
 
